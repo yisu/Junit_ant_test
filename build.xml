@@ -1,0 +1,45 @@
+<project name="JunitTest" default="test" basedir=".">
+   <property name="testdir" location="." />
+   <property name="srcdir" location="." />
+   <property name="full-compile" value="true" />
+   <path id="classpath.base"/>
+   <path id="classpath.test">
+      <pathelement location="${testdir}" />
+      <pathelement location="${srcdir}" />
+      <path refid="classpath.base" />
+   </path>
+   <target name="clean" >
+      <delete verbose="${full-compile}">
+         <fileset dir="${testdir}" includes="**/*.class" />
+      </delete>
+   </target>
+   <target name="compile" depends="clean">
+      <javac srcdir="${srcdir}" destdir="${testdir}" 
+         verbose="${full-compile}">
+         <classpath refid="classpath.test"/>
+      </javac>
+   </target>
+   <target name="test" depends="compile">
+      <junit printsummary="yes" haltonfailure="no" showoutput="yes">
+         <formatter type="plain" usefile="false"/>
+         <formatter type="xml"/>
+         <batchtest todir="reports">
+             <fileset dir="./">
+                 <include name="*.java"/>
+             </fileset>
+         </batchtest>
+         <classpath refid="classpath.test" />
+         <formatter type="brief" usefile="false" />
+         <test name="TestJunit" />
+      </junit>
+   </target>
+   <target name="test-reports" depends="test">
+      <mkdir dir="reports/html"/>
+      <junitreport todir="reports">
+         <fileset dir="reports">
+            <include name="TEST-*.xml"/>
+         </fileset>
+         <report format="frames" todir="reports/html"/>
+      </junitreport>
+   </target>
+</project>
