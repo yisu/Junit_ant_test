@@ -4,6 +4,6 @@ public class TestJunit {
    @Test
    public void testAdd() {
       String str= "Junit is working fine";
-      assertEquals("Junitt is working fine",str);
+      assertEquals("Junit is working fine",str);
    }
 }
